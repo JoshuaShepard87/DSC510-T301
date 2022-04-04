@@ -32,4 +32,13 @@ print(f'good bye {user}')
 
         
     
-
+def calculate_pay(hourly_pay_rate, work_hours, 
+                  overtime_pay_rate, overtime_work_hours, 
+                  is_eligible_overtime_rate):
+  total_pay = 0
+  totay_pay = hourly_pay_rate * work_hours
+  if is_eligible_overtime_rate:
+    total_pay = total_pay + overtime_pay_rate * overtime_work_hours
+  else:
+    total_pay = total_pay + hourly_pay_rate * overtime_work_hours
+  return total_pay
