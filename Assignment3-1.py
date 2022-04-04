@@ -22,7 +22,7 @@
 
 
 def main():
-    default_rate = float(.87)
+    default_rate = float(.00)
     disc_rate_100 = 100
     disc_rate_100_cost = float(.80)
     disc_rate_250 = 250
@@ -32,13 +32,11 @@ def main():
 
     # print("Hello World")
     # display welcome message
-    print("Hello and welcome!")
-
-    # Retrieve Company name input
-    company_name = input("What is your company's Name?")
-
-    # Calculate the install cost of fiber optic cable by total_cost(in feet) * $0.87
-    feet = int(input("How many feet of fiber optic do you need for your project?"))
+   
+    user = input('what is your name?')
+    print(f'Welcome, {user}!')
+    company = input('Where you work?')
+    feet = int(input('How much feet do you need of that cable, yo?'))
 
     if feet >= disc_rate_500:
         default_rate = disc_rate_500_cost
@@ -47,11 +45,11 @@ def main():
     elif feet >= disc_rate_100:
         default_rate = disc_rate_100_cost
     elif feet < 100:
-        return default_rate 
+        default_rate = float(.87)
 
     # Print receipt for the user including company name, number of feet of fiber installed, calc_cost, total_cost
     total_cost = '${:,.2f}'.format(feet * default_rate)
-    print(f"Company Name: {company_name}")
+    print(f"Company Name: {company}")
     print(f"Fiber Optic cable: {feet} feet")
     print("Your discount: " + "${:,.2f}".format(default_rate))
     print(f"Total Cost: {total_cost}")
