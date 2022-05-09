@@ -14,12 +14,6 @@
 # Your program should adhere to PEP8 guidelines especially as it pertains to variable names.
 
 
-
-
-
-
-
-
 user = input('what is your name?')
 print(f'Welcome, {user}!')
 company = input('Where you work?')
@@ -27,18 +21,18 @@ feet_of_cable = int(input('How much feet do you need of that cable, yo?'))
 maff = float(0.87)
 total_temp = feet_of_cable * maff
 cost = '${:,.2f}'.format(total_temp)
-print(f'Well... {user}, that works at {company}, you wanted {feet_of_cable} feet of cable which costs {cost}... good job or something. ')
+print(
+    f'Well... {user}, that works at {company}, you wanted {feet_of_cable} feet of cable which costs {cost}... good job or something. ')
 print(f'good bye {user}')
 
-        
-    
-def calculate_pay(hourly_pay_rate, work_hours, 
-                  overtime_pay_rate, overtime_work_hours, 
+
+def calculate_pay(hourly_pay_rate, work_hours,
+                  overtime_pay_rate, overtime_work_hours,
                   is_eligible_overtime_rate):
-  total_pay = 0
-  totay_pay = hourly_pay_rate * work_hours
-  if is_eligible_overtime_rate:
-    total_pay = total_pay + overtime_pay_rate * overtime_work_hours
-  else:
-    total_pay = total_pay + hourly_pay_rate * overtime_work_hours
-  return total_pay
+    total_pay = 0
+    totay_pay = hourly_pay_rate * work_hours
+    if is_eligible_overtime_rate:
+        total_pay = total_pay + overtime_pay_rate * overtime_work_hours
+    else:
+        total_pay = total_pay + hourly_pay_rate * overtime_work_hours
+    return total_pay
