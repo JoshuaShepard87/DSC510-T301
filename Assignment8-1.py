@@ -7,6 +7,7 @@
 from operator import itemgetter
 
 
+# goes through and adds a count to those words in the dictionary taht are + 1 else, it leaves it as is
 def add_wrd(wrd, dictionary):
     if wrd in dictionary.keys():
         dictionary[wrd] = dictionary[wrd] + 1
@@ -14,11 +15,13 @@ def add_wrd(wrd, dictionary):
         dictionary[wrd] = 1
 
 
+# Process the dictionary by line splits and then
 def Process_line(line, dictionary):
     for wrd in line.split():
         add_wrd(wrd, dictionary)
 
 
+# Pretty print the text
 def Pretty_print(dictionary):
     print('\nLength of the dictionary:', len(dictionary))
     print('Word            Count')
@@ -28,6 +31,8 @@ def Pretty_print(dictionary):
         print('{:15s}{:3d}'.format(key, value))
 
 
+# define a dictionary array and then process line by line the file into the Process_line
+# and then pretty print the outcome
 def main():
     dictionary = {}
     gba_file = open('gettysburg.txt', 'r')
