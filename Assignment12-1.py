@@ -163,7 +163,7 @@ def connect_to_api(location):
 # just repeats the process
 def repeat():
     choice = input("would you like to do another search?\n"
-                   "Enter yes for yes or no to quit: ")
+                   "Enter yes for yes or no to quit: ").strip().lower()
     if choice == 'yes':
         try_again()
     elif choice == 'no':
@@ -191,8 +191,15 @@ def get_weather(location):
 def main():
     print("Welcome to the weather app\n"
           "Powered by openweatherAPI\n")
-    location = input("Please enter the Zip Code or City Name here:  ")
-    get_weather(location)
+    location = input("Please enter the Zip Code or City Name here or type q to quit:  ").strip().lower()
+    if location != 'q':
+        get_weather(location)
+    elif location == 'q':
+        print("good bye")
+        exit(0)
+    else:
+        print('Seems something went wrong... Restarting program...')
+        main()
 
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ from Weather_app.display_c import *
 from Weather_app.display_f import *
 from Weather_app.helpers import *
 from Weather_app.converter import *
-from Weather_app.loops import *
+
 
 
 # connects to the api and returns the results
@@ -46,20 +46,40 @@ def connect_to_api(location):
         if status == 200:
             print(f'successful connection with status code: {status}')
             choice = input('Do you want your measurements in F or C?\n'
-                           'Enter F for Fahrenheit or C for Celsius: ')
-            if choice == 'F':
+                           'Enter F for Fahrenheit or C for Celsius: ').strip().lower()
+            if choice == 'f':
                 print(f'Fetching response: \n')
                 response = request.json()
                 display_f(convert(response))
                 repeat()
-            elif choice == 'C':
+            elif choice == 'c':
                 print(f'successful connection with status code: {status} \n\nFetching response: \n')
                 response = request.json()
                 display_c(convert(response))
                 repeat()
             else:
                 print("You must pick either C for Celsius or F for Fahrenheit\n")
-                try_again()
+                print(f'successful connection with status code: {status}')
+                choice = input('Do you want your measurements in F or C?\n'
+                           'Enter F for Fahrenheit or C for Celsius: ').strip().lower()
+                if choice == 'f':
+                    print(f'Fetching response: \n')
+                    response = request.json()
+                    display_f(convert(response))
+                    repeat()
+                elif choice == 'c':
+                    print(f'successful connection with status code: {status} \n\nFetching response: \n')
+                    response = request.json()
+                    display_c(convert(response))
+                    repeat()
+                else:
+                    print("Seems there was a problem with your entry. Resetting...")
+                    choice = input("would you like to quit? Enter q for quit. "
+                                   "Or simply type anything to continue the reset.").strip().lower()
+                    if choice != 'q':
+                        try_again()
+                    else:
+                        exit(0)
         if status == 404:
             print(f'seems we could not find anything for that city, state or zip as we got back status code: '
                   f'{status} from OpenWeather API\n'
@@ -86,7 +106,7 @@ def connect_to_api(location):
 # just repeats the process
 def repeat():
     choice = input("would you like to do another search?\n"
-                   "Enter yes for yes or no to quit: ")
+                   "Enter yes for yes or no to quit: ").strip().lower()
     if choice == 'yes':
         try_again()
     elif choice == 'no':
@@ -114,8 +134,15 @@ def get_weather(location):
 def main():
     print("Welcome to the weather app\n"
           "Powered by openweatherAPI\n")
-    location = input("Please enter the Zip Code or City Name here:  ")
-    get_weather(location)
+    location = input("Please enter the Zip Code or City Name here or type q to quit:  ").strip().lower()
+    if location != 'q':
+        get_weather(location)
+    elif location == 'q':
+        print("good bye")
+        exit(0)
+    else:
+        print('Seems something went wrong... Restarting program...')
+        main()
 
 
 if __name__ == '__main__':
