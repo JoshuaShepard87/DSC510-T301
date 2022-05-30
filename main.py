@@ -9,110 +9,33 @@
 # Create a Python Application which asks the user for their zip code or city (Your program must perform both a city and a zip lookup).
 # You must ask the user which they want to perform with each iteration of the program.
 # Use the zip code or city name in order to obtain weather forecast data from OpenWeatherMap.
-# Display the weather forecast in a readable format to the user. Do not display the weather data in Kelvin, since this is not readable to the average person.  
+# Display the weather forecast in a readable format to the user. Do not display the weather data in Kelvin, since this is not readable to the average person.
 # You should allow the user to choose between Celsius and Fahrenheit and ideally also Kelvin.
 # Use comments within the application where appropriate in order to document what the program is doing. Comments should add value to the program and describe important elements of the program.
 # Use functions including a main function and a properly defined call to main. You should have multiple functions.
 # Allow the user to run the program multiple times to allow them to look up weather conditions for multiple locations.
-# Validate whether the user entered valid data. 
-# If valid data isn’t presented notify the user. 
+# Validate whether the user entered valid data.
+# If valid data isn’t presented notify the user.
 # Your program should never crash with bad user input.
 # Use the Requests library in order to request data from the webservice.
 # Use Try blocks to ensure that your request was successful. If the connection was not successful display a message to the user.
 # Use Python 3
-# Use try blocks when establishing connections to the webservice. 
+# Use try blocks when establishing connections to the webservice.
 # You must print a message to the user indicating whether or not the connection was successful.
 # You must have proper coding convention including proper variable names (See PEP8).
 from collections import namedtuple
 
 import requests
 import json
-
-apikey = '&appid=f7fc4159b1cadbe65b4aae2ae711030f'
-# country_code = 'US'
-
-
-# convert Kelvin to Celsius
-def K_to_C_conversion(temperature):
-    converted_c = temperature - 273.15
-    return int(converted_c)
-
-
-# convert Kelvin to Fahrenheit
-def K_to_F_conversion(temperature):
-    converted_f = (temperature - 273.15) * 9 / 5 + 32
-    return int(converted_f)
-
-
-# wind comes back in meters
-# convert to MPH
-def miles_per_hour(wind):
-    wind_in_mph = wind * 2.236936
-    return int(wind_in_mph)
-
-
-# converts meteorological wind direction
-def wind_direction(wind_deg):
-    val = int((wind_deg / 22.5) + .5)
-    arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-    return arr[(val % 16)]
-
-
-# Display function for C
-def display_c(converted_data):
-    return print(f'Results Found for {converted_data["name"]}:\n'
-                 f'Current Temperature: {K_to_C_conversion(converted_data["temp"])}\N{DEGREE SIGN}C\n'
-                 f'Current Temperature in Kelvin: {int(converted_data["temp"])}\N{DEGREE SIGN}K\n'
-                 f'Current Humidity: {converted_data["humidity"]}%\n'
-                 f'Cloud cover:  {converted_data["clouds"]}%\n'
-                 f'Weather condition: {converted_data["weather_condition"]}\n'
-                 f'Feels like: {K_to_C_conversion(converted_data["feels_like"])}\N{DEGREE SIGN}F\n'
-                 f'High Temperature for the Day: {K_to_C_conversion(converted_data["temp_max"])}\N{DEGREE SIGN}C\n'
-                 f'Low Temperature for the day: {K_to_C_conversion(converted_data["temp_min"])}\N{DEGREE SIGN}C\n'
-                 f'Current wind speed is: {miles_per_hour(converted_data["wind_speed"])} MPH\n'
-                 # removed because some country responses do not have wind gust information returned
-                 # f'Wind gusts: {miles_per_hour(converted_data["wind_gust"])} MPH\n'
-                 f'Wind Direction: {wind_direction(converted_data["wind_direction"])}\n\n'),
-
-
-# Display function for F
-def display_f(converted_data):
-    return print(f'Results Found for {converted_data["name"]}:\n'
-                 f'Current Temperature: {K_to_F_conversion(converted_data["temp"])}\N{DEGREE SIGN}F\n'
-                 f'Current Temperature in Kelvin: {int(converted_data["temp"])}\N{DEGREE SIGN}K\n'
-                 f'Current Humidity: {converted_data["humidity"]}%\n'
-                 f'Cloud cover:  {converted_data["clouds"]}%\n'
-                 f'Weather condition: {converted_data["weather_condition"]}\n'
-                 f'Feels like: {K_to_F_conversion(converted_data["feels_like"])}\N{DEGREE SIGN}F\n'
-                 f'High Temperature for the Day: {K_to_F_conversion(converted_data["temp_max"])}\N{DEGREE SIGN}F\n'
-                 f'Low Temperature for the day: {K_to_F_conversion(converted_data["temp_min"])}\N{DEGREE SIGN}F\n'
-                 f'Current wind speed is: {miles_per_hour(converted_data["wind_speed"])} MPH\n'
-                 # removed because some country responses do not have wind gust information returned
-                 # f'Wind gusts: {miles_per_hour(converted_data["wind_gust"])} MPH\n'
-                 f'Wind Direction: {wind_direction(converted_data["wind_direction"])}\n\n'),
-
-
-# converts the response back to a new array where the key can be called for display easier
-def convert(response):
-    data = json.dumps(response, indent=4, sort_keys=True)
-    # print(data)
-    converted_data = {
-        "feels_like": response['main']['feels_like'],
-        "name": response['name'],
-        "humidity": response['main']['humidity'],
-        "temp": response['main']['temp'],
-        "clouds": response['clouds']['all'],
-        "weather_condition": response['weather'][0]['description'],
-        "temp_min": response['main']['temp_min'],
-        "temp_max": response['main']['temp_max'],
-        "wind_speed": response['wind']['speed'],
-        # "wind_gust": response['wind']['gust'],
-        "wind_direction": response['wind']['deg']
-    }
-    return converted_data
+from Weather_app.config import apikey
+from Weather_app.display_c import *
+from Weather_app.display_f import *
+from Weather_app.helpers import *
+from Weather_app.converter import *
 
 
 # connects to the api and returns the results
+
 def connect_to_api(location):
     try:
         print("connecting...")
